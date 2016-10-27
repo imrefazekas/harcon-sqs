@@ -32,6 +32,7 @@ describe('harcon', function () {
 		new Harcon( {
 			name: harconName,
 			Barrel: Sqs.Barrel,
+			barrel: { accessKeyId: process.env.AWS_ACCESS_KEY_ID, secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY, region: process.env.AWS_REGION },
 			logger: logger, idLength: 32,
 			blower: { commTimeout: 1500, tolerates: ['Alizee.superFlegme'] },
 			Marie: {greetings: 'Hi!'}
