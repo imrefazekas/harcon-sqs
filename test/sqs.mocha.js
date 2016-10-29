@@ -19,11 +19,14 @@ let Publisher = require('./Publisher')
 let Clerobee = require('clerobee')
 let clerobee = new Clerobee(16)
 
-let harconName = 'HarconSys'
+let harconName = 'HarconSQS' // + clerobee.generate(8)
+
 describe('harcon', function () {
 	let inflicter
 
 	before(function (done) {
+		this.timeout(10000)
+
 		let logger = Logger.createWinstonLogger( { console: true } )
 		// let logger = Logger.createWinstonLogger( { file: 'mochatest.log' } )
 
@@ -32,24 +35,24 @@ describe('harcon', function () {
 		new Harcon( {
 			name: harconName,
 			Barrel: Sqs.Barrel,
-			barrel: { accessKeyId: process.env.AWS_ACCESS_KEY_ID, secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY, region: process.env.AWS_REGION },
+			barrel: { purgeQueues: true, deleteQueues: true, accessKeyId: process.env.AWS_ACCESS_KEY_ID, secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY, region: process.env.AWS_REGION },
 			logger: logger, idLength: 32,
-			blower: { commTimeout: 1500, tolerates: ['Alizee.superFlegme'] },
+			blower: { commTimeout: 3500, tolerates: ['Alizee.superFlegme'] },
 			Marie: {greetings: 'Hi!'}
 		} )
 		.then( function (_inflicter) {
 			inflicter = _inflicter
 			return inflicter.inflicterEntity.addicts( Publisher )
 		} )
-		.then( () => { return Publisher.watch( path.join( process.cwd(), 'test', 'components' ) ) } )
 		.then( () => {
-			// Publishes an event listener function: Peter. It just sends a simple greetings in return
+			return Publisher.watch( path.join( process.cwd(), 'test', 'components' ) )
+		} )
+		.then( () => {
 			return inflicter.inflicterEntity.addict( null, 'peter', 'greet.*', function (greetings1, greetings2, callback) {
 				callback(null, 'Hi there!')
 			} )
 		} )
 		.then( () => {
-			// Publishes another function listening all messages which name starts with 'greet'. It just sends a simple greetings in return
 			return inflicter.inflicterEntity.addict( null, 'walter', 'greet.*', function (greetings1, greetings2, callback) {
 				callback(null, 'My pleasure!')
 			} )
@@ -72,24 +75,20 @@ describe('harcon', function () {
 				} ).catch(function (error) {
 					done(error)
 				})
-			}, 500 )
+			}, 1500 )
 		})
 		it('Retrieve entities...', function (done) {
 			inflicter.entities( function (err, entities) {
 				let names = entities.map( function (entity) { return entity.name } )
-				console.log( '...', err, entities, names )
 				expect( names ).to.eql( [ 'Inflicter', 'Publisher', 'peter', 'Alizee', 'Bandit', 'Charlotte', 'Claire', 'Domina', 'Julie', 'Lina', 'Marie', 'Marion', 'walter' ] )
 				done(err)
 			} )
 		})
-
 		it('Send for divisions...', function (done) {
-			inflicter.ignite( clerobee.generate(), null, '', 'Inflicter.divisions', function (err, res) {
-				console.log( err, res )
+			inflicter.ignite( clerobee.generate(), null, '', 'Inflicter.divisions', () => {
 				done()
 			} )
 		})
-
 		it('Clean internals', function (done) {
 			inflicter.pendingComms( function (err, comms) {
 				comms.forEach( function (comm) {
@@ -99,7 +98,7 @@ describe('harcon', function () {
 			} )
 		})
 	})
-
+	/*
 	describe('Error handling', function () {
 		it('Throw error', function (done) {
 			inflicter.ignite( clerobee.generate(), null, '', 'Bandit.delay', function (err) {
@@ -108,14 +107,16 @@ describe('harcon', function () {
 			} )
 		})
 	})
-
+	*/
 	describe('State shifting', function () {
 		it('Simple case', function (done) {
+			this.timeout(5000)
+
 			let Lina = inflicter.barrel.firestarter('Lina').object
-			inflicter.ignite( clerobee.generate(), null, '', 'Marie.notify', 'data', 'Lina.marieChanged', function (err) {
+			inflicter.ignite( clerobee.generate(), null, '', 'Marie.notify', 'data', 'Lina.marieChanged', function (err, res) {
 				if (err) return done(err)
 
-				inflicter.ignite( clerobee.generate(), null, '', 'Marie.simple', 'Bonjour', 'Salut', function (err) {
+				inflicter.ignite( clerobee.generate(), null, '', 'Marie.simple', 'Bonjour', 'Salut', function (err, res) {
 					if (err) return done(err)
 
 					let pingInterval = setInterval( function () {
@@ -123,7 +124,7 @@ describe('harcon', function () {
 							clearInterval( pingInterval )
 							done()
 						}
-					}, 500 )
+					}, 100 )
 				} )
 			} )
 		})
@@ -168,7 +169,6 @@ describe('harcon', function () {
 			} )
 		})
 	} )
-
 
 	describe('Harcon workflow', function () {
 		it('Simple greetings by name is', function (done) {
@@ -337,8 +337,9 @@ describe('harcon', function () {
 	})
 
 	after(function (done) {
+		this.timeout(10000)
 		// Shuts down Harcon when it is not needed anymore
-		inflicter.close()
-		done()
+		if (inflicter)
+			inflicter.close( done )
 	})
 })

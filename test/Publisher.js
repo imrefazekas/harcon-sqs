@@ -51,7 +51,7 @@ module.exports = {
 			let fn = function (err, res) {
 				if ( err ) {
 					console.error( err, newFile )
-					self.inflicterContext.logger.error( 'Failed to publish', newFile, err )
+					self.inflicterContext.logger.error( 'Failed to publish', err, newFile )
 				}
 			}
 			if ( fs.existsSync( newFile ) ) {
