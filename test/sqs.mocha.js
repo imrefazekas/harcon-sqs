@@ -14,8 +14,6 @@ let Sqs = require('../lib/Sqs')
 
 let Logger = require('./WinstonLogger')
 
-let Publisher = require('./Publisher')
-
 let Clerobee = require('clerobee')
 let clerobee = new Clerobee(16)
 
