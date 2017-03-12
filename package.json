@@ -1,6 +1,6 @@
 {
   "name": "harcon-sqs",
-  "version": "2.0.8",
+  "version": "2.0.10",
   "description": "SQS plugin for the harcon messaging/service bus of node-based enterprise entities.",
   "keywords": [
     "amazon",
@@ -25,9 +25,9 @@
   "license": "MIT",
   "main": "./lib/Sqs.js",
   "dependencies": {
-    "async": "^2.1.4",
-    "aws-sdk": "^2.9.0",
-    "harcon": "^6.0.8",
+    "async": "^2.1.5",
+    "aws-sdk": "^2.27.0",
+    "harcon": "^6.0.10",
     "isa.js": "^1.8.5",
     "proback.js": "^1.7.1"
   },
@@ -36,12 +36,12 @@
     "gulp": "github:gulpjs/gulp#4.0",
     "gulp-docco": "0.0.4",
     "gulp-eslint": "^3.0.1",
-    "gulp-load-plugins": "^1.4.0",
-    "gulp-mocha": "^3.0.1",
+    "gulp-load-plugins": "^1.5.0",
+    "gulp-mocha": "^4.1.0",
     "gulp-util": "^3.0.8",
     "minimist": "^1.2.0",
     "mkdirp": "^0.5.1",
-    "watch": "^1.0.1",
+    "watch": "^1.0.2",
     "winston": "^2.3.1"
   },
   "engines": {
