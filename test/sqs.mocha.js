@@ -12,7 +12,7 @@ let path = require('path')
 let Harcon = require('harcon')
 let Sqs = require('../lib/Sqs')
 
-let Logger = require('./WinstonLogger')
+let Logger = require('./PinoLogger')
 
 let Clerobee = require('clerobee')
 let clerobee = new Clerobee(16)
@@ -25,7 +25,7 @@ describe('harcon', function () {
 	before(function (done) {
 		this.timeout(10000)
 
-		let logger = Logger.createWinstonLogger( { console: true } )
+		let logger = Logger.createPinoLogger( { level: 'info' } )
 		// let logger = Logger.createWinstonLogger( { file: 'mochatest.log' } )
 
 		// Initializes the Harcon system

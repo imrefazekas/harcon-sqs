@@ -1,7 +1,7 @@
 module.exports = {
 	name: 'Lina',
 	init: function (options, callback) {
-		console.log( this.name + ' inited...' + options)
+		// console.log( this.name + ' inited...' + options)
 		callback()
 	},
 	marieChanged: function ( payload, callback ) {
