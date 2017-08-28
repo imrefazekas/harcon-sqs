@@ -46,7 +46,7 @@ describe('harcon', function () {
 				barrel: { purgeQueues: true, deleteQueues: true, accessKeyId: process.env.AWS_ACCESS_KEY_ID, secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY, region: process.env.AWS_REGION },
 				logger: logger,
 				idLength: 32,
-				blower: { commTimeout: 1500, tolerates: ['Alizee.flegme'] },
+				blower: { commTimeout: 2500, tolerates: ['Alizee.flegme'] },
 				mortar: { enabled: true, folder: path.join( harconPath, 'entities' ), liveReload: true, liveReloadTimeout: 2000 },
 				Marie: {greetings: 'Hi!'}
 			} )
@@ -131,8 +131,11 @@ describe('harcon', function () {
 			} catch (err) { expect(err).to.be.an.instanceof( Error ) }
 		})
 	})
+
 	describe('State shifting', function () {
 		it('Simple case', async function () {
+			this.timeout(5000)
+
 			let Lina = inflicter.barrel.firestarter('Lina').object
 			await inflicter.ignite( clerobee.generate(), null, '', 'Marie.notify', 'data', 'Lina.marieChanged')
 
@@ -149,14 +152,14 @@ describe('harcon', function () {
 	describe('Harcon distinguish', function () {
 		it('Access distinguished entity', async function () {
 			try {
-				let res = await inflicter.ignite( '0', null, '', 'Charlotte.access')
+				let res = await inflicter.ignite( clerobee.generate(), null, '', 'Charlotte.access')
 				should.exist(res)
 				expect( res ).to.include( 'D\'accord?' )
 			} catch ( err ) { console.error(err) }
 		})
 		it('Access distinguished entity', async function () {
 			try {
-				let res = await inflicter.ignite( '0', null, '', 'Charlotte-Unique.access')
+				let res = await inflicter.ignite( clerobee.generate(), null, '', 'Charlotte-Unique.access')
 				should.exist(res)
 				expect( res ).to.include( 'D\'accord?' )
 			} catch ( err ) { console.error(err) }
@@ -166,8 +169,8 @@ describe('harcon', function () {
 	describe('Erupt flow', function () {
 		it('Simple greetings by name is', async function () {
 			try {
-				let res = await inflicter.ignite( '0', null, '', 'Marie.simple', 'whatsup?', 'how do you do?')
-				let res2 = await inflicter.ignite( '0', null, '', 'greet.simple', 'whatsup?', 'how do you do?')
+				let res = await inflicter.ignite( clerobee.generate(), null, '', 'Marie.simple', 'whatsup?', 'how do you do?')
+				let res2 = await inflicter.ignite( clerobee.generate(), null, '', 'greet.simple', 'whatsup?', 'how do you do?')
 				console.log( '.>??????>>..', res, res2 )
 			} catch (err) { console.error(err) }
 		})
@@ -185,14 +188,14 @@ describe('harcon', function () {
 	describe('Harcon workflow', function () {
 		it('Simple greetings by name is', async function () {
 			try {
-				let res = await inflicter.ignite( '0', null, '', 'Marie.simple', 'whatsup?', 'how do you do?')
+				let res = await inflicter.ignite( clerobee.generate(), null, '', 'Marie.simple', 'whatsup?', 'how do you do?')
 				should.exist(res)
 				expect( res ).to.include( 'Bonjour!' )
 			} catch (err) { console.error(err) }
 		})
 		it('Simple greetings is', async function () {
 			try {
-				let res = await inflicter.ignite( '0', null, '', 'greet.simple', 'whatsup?', 'how do you do?')
+				let res = await inflicter.ignite( clerobee.generate(), null, '', 'greet.simple', 'whatsup?', 'how do you do?')
 				should.exist(res)
 
 				expect( res ).to.include( 'Hi there!' )
@@ -202,25 +205,25 @@ describe('harcon', function () {
 		})
 		it('Morning greetings is', async function () {
 			try {
-				let res = await inflicter.ignite( '0', null, '', 'morning.wakeup')
+				let res = await inflicter.ignite( clerobee.generate(), null, '', 'morning.wakeup')
 				expect(res).to.eql( [ 'Hi there!', 'My pleasure!' ] )
 			} catch (err) { console.error(err) }
 		})
 		it('General dormir', async function () {
 			try {
-				let res = await inflicter.ignite( '0', null, '', 'morning.dormir')
+				let res = await inflicter.ignite( clerobee.generate(), null, '', 'morning.dormir')
 				expect(res).to.eql( [ 'Non, non, non!', 'Non, Mais non!' ] )
 			} catch (err) { console.error(err) }
 		})
 		it('Specific dormir', async function () {
 			try {
-				let res = await inflicter.ignite( '0', null, '', 'morning.girls.dormir')
+				let res = await inflicter.ignite( clerobee.generate(), null, '', 'morning.girls.dormir')
 				expect(res).to.eql( [ 'Non, non, non!', 'Non, Mais non!' ] )
 			} catch (err) { console.error(err) }
 		})
 		it('No answer', async function () {
 			try {
-				await inflicter.ignite( '0', null, '', 'cave.echo')
+				await inflicter.ignite( clerobee.generate(), null, '', 'cave.echo')
 			} catch (err) {
 				expect(err).to.be.an.instanceof( Error )
 			}
@@ -235,7 +238,7 @@ describe('harcon', function () {
 		})
 		it('Division Promise test', async function () {
 			try {
-				let res = await inflicter.ignite( '0', null, harconName + '.click', 'greet.simple', 'Hi', 'Ca vas?' )
+				let res = await inflicter.ignite( clerobee.generate(), null, harconName + '.click', 'greet.simple', 'Hi', 'Ca vas?' )
 				should.exist(res)
 
 				expect( res ).to.include( 'Hi there!' )
@@ -246,7 +249,7 @@ describe('harcon', function () {
 		})
 		it('Division test', async function () {
 			try {
-				let res = await inflicter.ignite( '0', null, harconName + '.click', 'greet.simple', 'Hi', 'Ca vas?')
+				let res = await inflicter.ignite( clerobee.generate(), null, harconName + '.click', 'greet.simple', 'Hi', 'Ca vas?')
 
 				should.exist(res)
 
@@ -268,7 +271,7 @@ describe('harcon', function () {
 		it('Deactivate', async function () {
 			inflicter.deactivate('Claire')
 			try {
-				let res = await inflicter.ignite( '0', null, harconName + '.click', 'greet.simple', 'Hi', 'Ca vas?')
+				let res = await inflicter.ignite( clerobee.generate(), null, harconName + '.click', 'greet.simple', 'Hi', 'Ca vas?')
 				should.exist(res)
 				expect( res ).to.not.include( 'Pas du tout!' )
 			} catch (err) { console.error(err) }
