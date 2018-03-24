@@ -1,6 +1,6 @@
 {
   "name": "harcon-sqs",
-  "version": "4.7.5",
+  "version": "4.8.0",
   "description": "SQS plugin for the harcon messaging/service bus of node-based enterprise entities.",
   "keywords": [
     "amazon",
@@ -26,7 +26,7 @@
   "main": "./lib/Sqs.js",
   "dependencies": {
     "aws-sdk": "^2.213.1",
-    "harcon": "^8.7.5",
+    "harcon": "^8.8.0",
     "isa.js": "^2.2.0",
     "proback.js": "^2.1.6"
   },
