@@ -37,7 +37,7 @@ describe('harcon', function () {
 
 		try {
 			let harconPath = path.join( process.cwd(), 'node_modules', 'harcon', 'test' )
-			const oldLina = await readFile( path.join( harconPath, 'livereload', 'Line_orig.js'), { encoding: 'utf8' } )
+			const oldLina = await readFile( path.join( harconPath, 'livereload', 'Lina_orig.js'), { encoding: 'utf8' } )
 			await writeFile( path.join( harconPath, 'entities', 'Lina.js'), oldLina, { encoding: 'utf8' } )
 
 			let harcon = new Harcon( {
