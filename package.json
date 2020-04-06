@@ -1,6 +1,6 @@
 {
   "name": "harcon-sqs",
-  "version": "5.2.16",
+  "version": "5.2.17",
   "description": "SQS plugin for the harcon messaging/service bus of node-based enterprise entities.",
   "keywords": [
     "amazon",
