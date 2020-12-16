@@ -25,9 +25,9 @@
   "license": "MIT",
   "main": "./lib/Sqs.js",
   "dependencies": {
-    "aws-sdk": "^2.802.0",
-    "harcon": "^9.2.48",
-    "isa.js": "^2.2.15",
+    "aws-sdk": "^2.811.0",
+    "harcon": "^9.2.50",
+    "isa.js": "^2.2.16",
     "proback.js": "^2.1.16"
   },
   "devDependencies": {
